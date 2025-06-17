@@ -37,4 +37,4 @@ export function ispisiUsers(nizUsera: User[]): void{
     }
 }
 
-document.addEventListener('DOMContentLoaded', getAll)
+document.addEventListener('DOMContentLoaded', () => getAll(ispisiUsers));
