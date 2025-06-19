@@ -1,5 +1,6 @@
 import { getAll } from '../service/sviKorisnici.service.js';
 import { User } from  '../model/sviKorisnici.model.js';
+import { deleteUser } from '../service/sviKorisnici.service.js';
 
 export function ispisiUsers(nizUsera: User[]): void{
     const tabela = document.querySelector('#usersBody') as HTMLTableElement
@@ -33,6 +34,33 @@ export function ispisiUsers(nizUsera: User[]): void{
         const mesec = String(originalniDatum.getMonth() + 1).padStart(2, '0'); // Meseci su 0-indeksirani, pa dodajemo 1
         const godina = originalniDatum.getFullYear(); // Dobija punu godinu
         datumCell.textContent = `${dan}/${mesec}/${godina}`; // Formatira datum u dd/MM/yyyy
+
+        const izbrisiCell = noviRed.insertCell();
+        const izbrisiBtn = document.createElement('button');
+        izbrisiBtn.textContent = 'Izbrisi';
+        Object.assign(izbrisiCell.style, {
+            width: '190px',
+            height: '50px',
+            borderRadius: '5px',
+            backgroundColor: '#0056b3',  
+        });
+        Object.assign(izbrisiBtn.style, {
+            width: '100%',
+            height: '100%',
+            borderRadius: '5px',
+            backgroundColor: '#ff4d4d',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer'
+        });
+        izbrisiCell.appendChild(izbrisiBtn);
+
+        izbrisiBtn.addEventListener('click', () => {
+            const red = izbrisiBtn.closest('tr')!;
+            const id = parseInt(red.cells[0].textContent!);
+
+            deleteUser(id);
+        });
 
     }
 }

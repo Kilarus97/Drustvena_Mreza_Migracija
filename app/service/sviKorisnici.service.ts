@@ -91,3 +91,19 @@ export function postNew(userId: number | null = null, jsonData: User | null = nu
     }
   });
 }
+
+export function deleteUser(userId: number): void {
+  fetch(`http://localhost:21271/api/users/${userId}`, {
+    method: 'DELETE'
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Request failed. Status: ' + response.status);
+    }
+    window.location.href = '../index.html';
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+    alert('Došlo je do greške pri brisanju korisnika.');
+  });
+}
