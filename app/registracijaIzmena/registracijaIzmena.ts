@@ -1,6 +1,7 @@
 import { User } from  '../model/sviKorisnici.model.js';
-import { getAll } from '../service/sviKorisnici.service.js';
-import { postNew } from '../service/sviKorisnici.service.js';
+import { UserService } from '../service/sviKorisnici.service.js';
+
+const userService = new UserService();
 
 
 const dodajBtn = document.getElementById('dodajBtn') as HTMLButtonElement;
@@ -11,11 +12,11 @@ const submitBtn = document.querySelector("#submitBtn") as HTMLButtonElement;
 
 
 submitBtn.addEventListener("click", function() {
-    postNew(null, null)
+  userService.postNew(null, null)
   })
 
 document.addEventListener('DOMContentLoaded', () => {
-    getAll(ispisiUsers);
+  userService.getAll(ispisiUsers);
   
     if (dodajForm) dodajForm.classList.add('hidden');
     if (izmeniForm) izmeniForm.classList.add('hidden');
@@ -110,7 +111,7 @@ izmeniBtn.addEventListener('click', () => {
           datumRodjenja: formatiranDatum
         };
   
-        postNew(id, putData);
+        userService.postNew(id, putData);
       });
     });
   }

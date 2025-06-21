@@ -1,8 +1,9 @@
-import { getAll } from '../service/sviKorisnici.service.js';
 import { User } from  '../model/sviKorisnici.model.js';
-import { deleteUser } from '../service/sviKorisnici.service.js';
+import { UserService } from '../service/sviKorisnici.service.js';
 
-export function ispisiUsers(nizUsera: User[]): void{
+const userService = new UserService();
+
+function ispisiUsers(nizUsera: User[]): void{
     const tabela = document.querySelector('#usersBody') as HTMLTableElement
     
     if (!tabela) {
@@ -59,10 +60,10 @@ export function ispisiUsers(nizUsera: User[]): void{
             const red = izbrisiBtn.closest('tr')!;
             const id = parseInt(red.cells[0].textContent!);
 
-            deleteUser(id);
+            userService.deleteUser(id);
         });
 
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => getAll(ispisiUsers));
+document.addEventListener('DOMContentLoaded', () => userService.getAll(ispisiUsers));
