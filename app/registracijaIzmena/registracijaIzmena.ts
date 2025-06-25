@@ -10,6 +10,30 @@ const dodajForm = document.getElementById('dodajForm') as HTMLFormElement;
 const izmeniForm = document.getElementById('izmeniForm') as HTMLFormElement;
 const submitBtn = document.querySelector("#submitBtn") as HTMLButtonElement;
 
+const tooltip = document.createElement("div");
+tooltip.textContent = "Klikom na dugme sačuvaćete podatke.";
+tooltip.style.position = "absolute";
+tooltip.style.backgroundColor = "#333";
+tooltip.style.color = "#fff";
+tooltip.style.padding = "5px 10px";
+tooltip.style.borderRadius = "5px";
+tooltip.style.opacity = "0";
+tooltip.style.transition = "opacity 0.5s ease";
+tooltip.style.pointerEvents = "none";
+document.body.appendChild(tooltip);
+
+submitBtn.addEventListener("mouseover", () => {
+    const rect = submitBtn.getBoundingClientRect();
+    tooltip.style.left = `${rect.left + window.scrollX}px`;
+    tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
+    setTimeout(() => {
+        tooltip.style.opacity = "1";
+    }, 1000); // Prikaz nakon 1 sekunde
+});
+
+submitBtn.addEventListener("mouseout", () => {
+    tooltip.style.opacity = "0";
+});
 
 submitBtn.addEventListener("click", function() {
   userService.postNew(null, null)

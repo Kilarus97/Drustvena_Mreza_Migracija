@@ -7,6 +7,12 @@
     margin: 20px 0;
 }
 
+#submitBtn:hover {
+    background-color: #7ed6f9; /* Posvetljivanje */
+    transform: scale(1.1); /* Blago uvećanje */
+    transition: all 0.3s ease; /* Glatki prelaz */
+}
+
 .form-container {
     margin: 20px 0;
     display: flex; /* Aktivira Flexbox */
