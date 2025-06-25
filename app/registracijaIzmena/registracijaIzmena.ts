@@ -22,6 +22,27 @@ tooltip.style.transition = "opacity 0.5s ease";
 tooltip.style.pointerEvents = "none";
 document.body.appendChild(tooltip);
 
+
+const spinner = document.createElement("div");
+spinner.id = "loadingSpinner";
+spinner.style.display = "none"; // Skriveno po defaultu
+spinner.style.position = "absolute";
+spinner.style.width = "50px";
+spinner.style.height = "50px";
+spinner.style.border = "5px solid #ccc";
+spinner.style.borderTop = "5px solid #333";
+spinner.style.borderRadius = "50%";
+spinner.style.animation = "spin 1s linear infinite";
+document.body.appendChild(spinner);
+
+
+const errorMessage = document.createElement("div");
+errorMessage.id = "errorMessage";
+errorMessage.style.color = "red";
+errorMessage.style.marginTop = "10px";
+errorMessage.style.display = "none"; // Skriveno po defaultu
+document.body.appendChild(errorMessage);
+
 submitBtn.addEventListener("mouseover", () => {
     const rect = submitBtn.getBoundingClientRect();
     tooltip.style.left = `${rect.left + window.scrollX}px`;
@@ -31,20 +52,42 @@ submitBtn.addEventListener("mouseover", () => {
     }, 1000); // Prikaz nakon 1 sekunde
 });
 
-submitBtn.addEventListener("click", () => {
- 
-});
 
 submitBtn.addEventListener("mouseout", () => {
     tooltip.style.opacity = "0";
 });
 
-submitBtn.addEventListener("click", function() {
+submitBtn.addEventListener("click", async function () {
   submitBtn.disabled = true;
-  submitBtn.style.backgroundColor = "#ccc"; // Zasivljavanje
-  submitBtn.style.cursor = "not-allowed"; // Promena kursora
-  userService.postNew(null, null)
-  })
+  submitBtn.style.backgroundColor = "#ccc";
+  submitBtn.style.cursor = "not-allowed";
+
+  spinner.style.display = "block"; // Prikaz spinnera
+  errorMessage.style.display = "none"; // Sakrivanje poruke o grešci
+
+  try {
+    await userService.postNew(null, null); // HTTP zahtev
+    window.location.href = '../index.html'; // Prebacivanje na drugu stranicu u slučaju uspeha
+  } catch {
+    errorMessage.textContent = "Došlo je do greške. Pokušajte ponovo.";
+    errorMessage.style.display = "block"; // Prikaz poruke o grešci
+    submitBtn.disabled = false; // Osposobljavanje dugmeta
+    submitBtn.style.backgroundColor = ""; // Vraćanje originalne boje
+    submitBtn.style.cursor = "pointer"; // Vraćanje kursora
+  } finally {
+    spinner.style.display = "none"; // Sakrivanje spinnera
+  }
+});
+
+// CSS za spinner animaciju
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(style);
 
 document.addEventListener('DOMContentLoaded', () => {
   userService.getAll(ispisiUsers);
