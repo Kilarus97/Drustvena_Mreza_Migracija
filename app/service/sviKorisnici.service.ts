@@ -87,7 +87,6 @@ export class UserService {
     })
     .then(text => {
       const data = text ? JSON.parse(text) : {};
-      window.location.href = '../index.html';
       return data;
     })
     .catch(error => {

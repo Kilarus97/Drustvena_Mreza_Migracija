@@ -31,11 +31,18 @@ submitBtn.addEventListener("mouseover", () => {
     }, 1000); // Prikaz nakon 1 sekunde
 });
 
+submitBtn.addEventListener("click", () => {
+ 
+});
+
 submitBtn.addEventListener("mouseout", () => {
     tooltip.style.opacity = "0";
 });
 
 submitBtn.addEventListener("click", function() {
+  submitBtn.disabled = true;
+  submitBtn.style.backgroundColor = "#ccc"; // Zasivljavanje
+  submitBtn.style.cursor = "not-allowed"; // Promena kursora
   userService.postNew(null, null)
   })
 
